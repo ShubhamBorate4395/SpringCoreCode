@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  
+    xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+
+ 
+<!-- Autowire ByName -->
+<bean name="bookName" class="com.org.Book">
+	<property name="bookName" value="Java"></property>
+	<property name="authorName" value="James Gowsling"></property>
+</bean>
+
+<bean name="bookName1" class="com.org.Book">
+	<property name="bookName" value="C"></property>
+	<property name="authorName" value="John Cena"></property>
+</bean>
+
+<bean name="libraryBean" class="com.org.Library" autowire="constructor">
+</bean>
+<!-- ======================================================================== -->
+
+<!-- Autowire ByType -->
+<!-- <bean name="publisherName" class="com.org.Author">
+	<property name="authorName" value="James Gosling"></property>
+	
+</bean>
+
+<bean name="authorBean" class="com.org.Book" autowire="byType">
+	<property name="bookTitle" value="Java"></property>
+</bean> -->
+<!-- ======================================================================== -->
+
+</beans>

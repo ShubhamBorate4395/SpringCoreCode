@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/tx
+ http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+
+	<tx:annotation-driven />
+
+
+
+
+	<!-- DataSource implementation class -->
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="ds">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/springjdbc"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+
+	<!--SessionFactory -->
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		id="localFactoryBean">
+
+		<!-- DataSource -->
+		<property name="dataSource" ref="ds"></property>
+
+		<!--hibernate-Properties -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+
+		<!-- Annotated Classes -->
+		<property name="annotatedClasses">
+			<list>
+				<value>
+					com.springcore.spring.orm.entities.Student
+				</value>
+			</list>
+		</property>
+
+	</bean>
+
+	<!-- Hibernate Template -->
+	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
+		id="hibernateTemplateClass">
+		<property name="sessionFactory" ref="localFactoryBean"></property>
+	</bean>
+
+	<!-- Dao Class -->
+	<bean class="com.springcore.spring.orm.dao.StudentDao" id="studentDao">
+		<property name="hibernateTemplate" ref="hibernateTemplateClass"></property>
+	</bean>
+
+	<!-- For enabling write operation use this beans -->
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		id="transactionManager">
+		<property name="sessionFactory" ref="localFactoryBean"></property>
+	</bean>
+
+</beans>
